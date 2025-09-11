@@ -1,0 +1,512 @@
+/* ナビゲーション */
+.nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.backBtn {
+  background: var(--text-muted);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-default);
+}
+
+.backBtn:hover {
+  background: var(--text-secondary);
+  transform: translateY(-1px);
+}
+
+/* 入力行 */
+.inputRow {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xl);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* フォーム要素 */
+.input {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: var(--font-family);
+  color: var(--text-primary);
+  box-shadow: 0 2px 4px var(--accent-shadow);
+  transition: var(--transition-default);
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px
+    color-mix(in oklab, var(--primary-start) 20%, transparent);
+  transform: translateY(-1px);
+}
+
+/* ボタン */
+.generateBtn {
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-default);
+  box-shadow: 0 2px 4px
+    color-mix(in oklab, var(--primary-start) 30%, transparent);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 80px;
+}
+
+.generateBtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    in oklab to right,
+    var(--primary-hover-start),
+    var(--primary-hover-end)
+  );
+  transition: var(--transition-default);
+  z-index: 1;
+}
+
+.generateBtn:hover:not(:disabled)::before {
+  left: 0;
+}
+
+.generateBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px
+    color-mix(in oklab, var(--primary-start) 40%, transparent);
+}
+
+.generateBtn:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 4px var(--accent-shadow);
+}
+
+.generateBtn:disabled::before {
+  display: none;
+}
+
+.generateBtn > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* 料理候補グリッド */
+.dishGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xl);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dishCard {
+  background: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+  cursor: pointer;
+  transition: var(--transition-default);
+  box-shadow: 0 2px 4px var(--accent-shadow);
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  position: relative;
+}
+
+.dishCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px
+    color-mix(in oklab, var(--accent-shadow) 20%, transparent);
+}
+
+.dishImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  object-view-box: inset(5% 5% 5% 5%);
+  transition: object-view-box 0.4s ease;
+}
+
+.dishCard:hover .dishImage {
+  object-view-box: inset(0% 0% 0% 0%);
+}
+
+/* レシピセクション */
+.recipeSection {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.recipeContent {
+  background: white;
+  border-radius: 12px;
+  padding: var(--spacing-lg);
+  box-shadow: 0 2px 4px var(--accent-shadow);
+}
+
+.recipeText {
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 0;
+}
+
+/* 編集行 */
+.editRow {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.editInput {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: var(--font-family);
+  color: var(--text-primary);
+  box-shadow: 0 2px 4px var(--accent-shadow);
+  transition: var(--transition-default);
+}
+
+.editInput:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px
+    color-mix(in oklab, var(--primary-start) 20%, transparent);
+  transform: translateY(-1px);
+}
+
+.editBtn {
+  background: var(--secondary-gradient);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-default);
+  box-shadow: 0 4px 6px
+    color-mix(in oklab, var(--secondary-start) 30%, transparent);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.editBtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    in oklab to right,
+    var(--secondary-hover-start),
+    var(--secondary-hover-end)
+  );
+  transition: var(--transition-default);
+  z-index: 1;
+}
+
+.editBtn:hover:not(:disabled)::before {
+  left: 0;
+}
+
+.editBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px
+    color-mix(in oklab, var(--secondary-start) 40%, transparent);
+}
+
+.editBtn:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 4px var(--accent-shadow);
+}
+
+.editBtn:disabled::before {
+  display: none;
+}
+
+.editBtn > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* 保存ボタン */
+.saveBtn {
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-default);
+  box-shadow: 0 4px 6px
+    color-mix(in oklab, var(--primary-start) 30%, transparent);
+  position: relative;
+  overflow: hidden;
+  align-self: center;
+}
+
+.saveBtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    in oklab to right,
+    var(--primary-hover-start),
+    var(--primary-hover-end)
+  );
+  transition: var(--transition-default);
+  z-index: 1;
+}
+
+.saveBtn:hover:not(:disabled)::before {
+  left: 0;
+}
+
+.saveBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px
+    color-mix(in oklab, var(--primary-start) 40%, transparent);
+}
+
+.saveBtn:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 4px var(--accent-shadow);
+}
+
+.saveBtn:disabled::before {
+  display: none;
+}
+
+.saveBtn > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* メッセージ */
+.message {
+  max-width: 600px;
+  margin: var(--spacing-lg) auto 0;
+  padding: var(--spacing-md);
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  background: color-mix(in oklab, var(--accent-success) 10%, transparent);
+  color: var(--accent-success);
+  border: 1px solid color-mix(in oklab, var(--accent-success) 20%, transparent);
+}
+
+/* ローディングアニメーション */
+.loadingSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid color-mix(in oklab, var(--primary-start) 20%, transparent);
+  border-top: 3px solid var(--primary-start);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--spacing-md);
+}
+
+.loadingText {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 0;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 料理カードのローディング状態 */
+.dishCard:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.dishCard:disabled:hover {
+  transform: none;
+  box-shadow: 0 2px 4px var(--accent-shadow);
+}
+
+/* パースされたレシピ表示 */
+.parsedRecipe {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.ingredientsSection,
+.stepsSection {
+  background: color-mix(in oklab, var(--background-start) 30%, transparent);
+  border-radius: 12px;
+  padding: var(--spacing-lg);
+  border: 1px solid color-mix(in oklab, var(--primary-start) 10%, transparent);
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-md) 0;
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 2px solid
+    color-mix(in oklab, var(--primary-start) 20%, transparent);
+}
+
+.ingredientsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.ingredientItem {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: white;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  border-left: 3px solid var(--primary-start);
+  box-shadow: 0 1px 3px var(--accent-shadow);
+}
+
+.stepsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  counter-reset: step-counter;
+}
+
+.stepItem {
+  counter-increment: step-counter;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: white;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  box-shadow: 0 2px 4px var(--accent-shadow);
+  position: relative;
+  padding-left: calc(var(--spacing-md) + 1.5rem);
+}
+
+.stepItem::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: var(--spacing-sm);
+  top: var(--spacing-sm);
+  width: 1.5rem;
+  height: 1.5rem;
+  background: var(--primary-gradient);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* レスポンシブ対応 */
+@media (width < 768px) {
+  .inputRow {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .dishGrid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--spacing-sm);
+  }
+
+  .editRow {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .recipeContent {
+    padding: var(--spacing-lg);
+  }
+
+  .recipeText {
+    font-size: 0.9rem;
+  }
+
+  .loadingSection {
+    padding: var(--spacing-xl);
+  }
+
+  .loadingSpinner {
+    width: 32px;
+    height: 32px;
+  }
+}

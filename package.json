@@ -1,0 +1,39 @@
+{
+  "name": "menu-items",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AraiShg17/menu-items.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AraiShg17/menu-items/issues"
+  },
+  "homepage": "https://github.com/AraiShg17/menu-items#readme",
+  "dependencies": {
+    "next": "14.2.32",
+    "openai": "^4.104.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "24.3.1",
+    "@types/react": "^18.3.24",
+    "@types/react-dom": "^18.3.7",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.32",
+    "typescript": "^5.9.2"
+  }
+}

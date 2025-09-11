@@ -1,0 +1,265 @@
+/* CSS変数とグローバルスタイル */
+:root {
+  /* プライマリカラー */
+  --primary-start: #3b82f6;
+  --primary-end: #9333ea;
+  --primary-gradient: linear-gradient(
+    in oklab to right,
+    var(--primary-start),
+    var(--primary-end)
+  );
+
+  /* セカンダリカラー */
+  --secondary-start: #f97316;
+  --secondary-end: #ec4899;
+  --secondary-gradient: linear-gradient(
+    in oklab to right,
+    var(--secondary-start),
+    var(--secondary-end)
+  );
+
+  /* 背景カラー - 白系グラデーション */
+  --background-start: #ffffff;
+  --background-mid: #fefefe;
+  --background-end: #fdfdfd;
+  --background-gradient: linear-gradient(
+    135deg,
+    var(--background-start) 0%,
+    var(--background-mid) 35%,
+    var(--background-end) 70%,
+    #fafafa 100%
+  );
+
+  /* テキストカラー */
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+
+  /* アクセントカラー */
+  --accent-success: #10b981;
+  --accent-error: #dc2626;
+  --accent-warning: #f59e0b;
+  --accent-shadow: color-mix(in oklab, #000 5%, transparent);
+
+  /* ホバー状態の色 */
+  --primary-hover-start: #2563eb;
+  --primary-hover-end: #7c3aed;
+  --secondary-hover-start: #ea580c;
+  --secondary-hover-end: #db2777;
+
+  /* 8pt Grid System スペーシング */
+  --spacing-xs: 0.25rem; /* 4px */
+  --spacing-sm: 0.5rem; /* 8px */
+  --spacing-md: 1rem; /* 16px */
+  --spacing-lg: 1.5rem; /* 24px */
+  --spacing-xl: 2rem; /* 32px */
+  --spacing-2xl: 3rem; /* 48px */
+
+  /* コンテナサイズ */
+  --container-max-width: 1200px;
+
+  /* トランジション */
+  --transition-default: 0.3s ease;
+  --transition-fast: 0.15s ease-in-out;
+
+  /* フォント */
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  --font-mono: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono",
+    "Source Code Pro", monospace;
+
+  /* 固有サイズのアニメーション対応 */
+  interpolate-size: allow-keywords;
+}
+
+/* リセットCSS */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ベーススタイル */
+html {
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--background-gradient);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+  position: relative;
+  /* 安全領域の考慮 */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    /* 白系の円形グラデーション */
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 30%, transparent 60%),
+    radial-gradient(circle at 75% 75%, rgba(248, 250, 252, 0.2) 0%, rgba(248, 250, 252, 0.05) 30%, transparent 60%),
+    radial-gradient(circle at 50% 10%, rgba(241, 245, 249, 0.15) 0%, rgba(241, 245, 249, 0.03) 40%, transparent 70%),
+    radial-gradient(circle at 10% 60%, rgba(248, 250, 252, 0.12) 0%, rgba(248, 250, 252, 0.03) 40%, transparent 70%),
+    radial-gradient(circle at 90% 40%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 35%, transparent 65%),
+    /* 清潔感のある楕円形グラデーション */
+    radial-gradient(ellipse at 30% 70%, rgba(248, 250, 252, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+  animation: backgroundShift 25s ease-in-out infinite;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    /* 温かみのあるシャープな円形境界線 */
+    radial-gradient(circle at 20% 20%, transparent 0%, transparent 45%, rgba(251, 146, 60, 0.08) 46%, rgba(251, 146, 60, 0.04) 48%, transparent 50%),
+    radial-gradient(circle at 80% 80%, transparent 0%, transparent 45%, rgba(34, 197, 94, 0.08) 46%, rgba(34, 197, 94, 0.04) 48%, transparent 50%),
+    radial-gradient(circle at 60% 20%, transparent 0%, transparent 40%, rgba(245, 158, 11, 0.06) 41%, rgba(245, 158, 11, 0.03) 43%, transparent 45%),
+    /* 料理らしい小さな円形アクセント */
+    radial-gradient(circle at 15% 85%, rgba(249, 115, 22, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 85% 15%, rgba(168, 85, 247, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 40% 90%, rgba(16, 185, 129, 0.04) 0%, transparent 25%),
+    radial-gradient(circle at 90% 60%, rgba(251, 146, 60, 0.04) 0%, transparent 25%);
+  pointer-events: none;
+  z-index: -1;
+  animation: backgroundShift2 30s ease-in-out infinite reverse;
+}
+
+@keyframes backgroundShift {
+  0%, 100% { 
+    transform: translateX(0) translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  25% { 
+    transform: translateX(-1%) translateY(-0.5%) scale(1.01) rotate(0.5deg);
+    opacity: 0.9;
+  }
+  50% { 
+    transform: translateX(0.5%) translateY(-1%) scale(0.99) rotate(-0.3deg);
+    opacity: 0.95;
+  }
+  75% { 
+    transform: translateX(-0.5%) translateY(0.5%) scale(1.005) rotate(0.2deg);
+    opacity: 0.92;
+  }
+}
+
+@keyframes backgroundShift2 {
+  0%, 100% { 
+    transform: translateX(0) translateY(0) scale(1) rotate(0deg);
+    opacity: 0.8;
+  }
+  33% { 
+    transform: translateX(1%) translateY(0.5%) scale(1.02) rotate(-0.5deg);
+    opacity: 0.9;
+  }
+  66% { 
+    transform: translateX(-0.5%) translateY(1%) scale(0.98) rotate(0.3deg);
+    opacity: 0.85;
+  }
+}
+
+
+/* フォーカス状態 */
+*:focus {
+  outline: 2px solid color-mix(in oklab, #3b82f6 50%, transparent);
+  outline-offset: 2px;
+}
+
+/* モーション配慮 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ユーティリティクラス */
+.kern-palt {
+  font-feature-settings: "palt" 1;
+}
+
+.kern-pwid {
+  font-feature-settings: "pwid" 1;
+}
+
+.kern-pkna {
+  font-feature-settings: "pkna" 1;
+}
+
+.kern-off {
+  font-feature-settings: normal;
+}
+
+/* レイアウトユーティリティ */
+.flex {
+  display: flex;
+}
+
+.flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid {
+  display: grid;
+}
+
+/* コンテナ構造 */
+.container {
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
+  min-height: 100vh;
+}
+
+.section {
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
+  height: 100dvh;
+  padding-block: var(--spacing-2xl);
+}
+
+.sectionInner {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding-inline: var(--spacing-xl);
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
+  height: stretch;
+}
+
+/* レスポンシブ対応 */
+@media (width < 768px) {
+  .section {
+    padding-block: var(--spacing-xl);
+  }
+
+  .sectionInner {
+    padding-inline: var(--spacing-lg);
+  }
+}
