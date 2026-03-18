@@ -1,0 +1,451 @@
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.uploadSection {
+  margin-bottom: 2rem;
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-default);
+  box-shadow: 0 2px 4px
+    color-mix(in oklab, var(--primary-start) 30%, transparent);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 80px;
+  justify-content: center;
+}
+
+.uploadBtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    in oklab to right,
+    var(--primary-hover-start),
+    var(--primary-hover-end)
+  );
+  transition: var(--transition-default);
+  z-index: 1;
+}
+
+.uploadBtn:hover:not(:disabled)::before {
+  left: 0;
+}
+
+.uploadBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px
+    color-mix(in oklab, var(--primary-start) 40%, transparent);
+}
+
+.uploadBtn:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 4px var(--accent-shadow);
+}
+
+.uploadBtn:disabled::before {
+  display: none;
+}
+
+.uploadBtn > * {
+  position: relative;
+  z-index: 2;
+}
+
+.imagePreview {
+  margin-bottom: 2rem;
+}
+
+.imagePreview h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 1rem;
+}
+
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.imageItem {
+  position: relative;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.imageItem img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  display: block;
+}
+
+.removeBtn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  background: rgba(220, 53, 69, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.removeBtn:hover {
+  background: rgba(220, 53, 69, 1);
+}
+
+.extractBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-default);
+  box-shadow: 0 2px 4px
+    color-mix(in oklab, var(--primary-start) 30%, transparent);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 80px;
+  justify-content: center;
+}
+
+.extractBtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    in oklab to right,
+    var(--primary-hover-start),
+    var(--primary-hover-end)
+  );
+  transition: var(--transition-default);
+  z-index: 1;
+}
+
+.extractBtn:hover:not(:disabled)::before {
+  left: 0;
+}
+
+.extractBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px
+    color-mix(in oklab, var(--primary-start) 40%, transparent);
+}
+
+.extractBtn:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 4px var(--accent-shadow);
+}
+
+.extractBtn:disabled::before {
+  display: none;
+}
+
+.extractBtn > * {
+  position: relative;
+  z-index: 2;
+}
+
+.resultSection {
+  margin-bottom: calc(2rem + var(--spacing-2xl));
+}
+
+.resultSection h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 1rem;
+}
+
+.recipeContent {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.recipeContent h4 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 1rem;
+}
+
+.recipeDetails {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #495057;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.editSection {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+}
+
+.instructionInput {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  resize: vertical;
+  margin-bottom: 0.75rem;
+  font-family: inherit;
+}
+
+.instructionInput:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.editBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--secondary-gradient);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-default);
+  box-shadow: 0 2px 4px
+    color-mix(in oklab, var(--secondary-start) 30%, transparent);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 80px;
+}
+
+.editBtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    in oklab to right,
+    var(--secondary-hover-start),
+    var(--secondary-hover-end)
+  );
+  transition: var(--transition-default);
+  z-index: 1;
+}
+
+.editBtn:hover:not(:disabled)::before {
+  left: 0;
+}
+
+.editBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px
+    color-mix(in oklab, var(--secondary-start) 40%, transparent);
+}
+
+.editBtn:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 4px var(--accent-shadow);
+}
+
+.editBtn:disabled::before {
+  display: none;
+}
+
+.editBtn > * {
+  position: relative;
+  z-index: 2;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.saveBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-default);
+  box-shadow: 0 2px 4px
+    color-mix(in oklab, var(--primary-start) 30%, transparent);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 80px;
+  flex: 1;
+  justify-content: center;
+}
+
+.saveBtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    in oklab to right,
+    var(--primary-hover-start),
+    var(--primary-hover-end)
+  );
+  transition: var(--transition-default);
+  z-index: 1;
+}
+
+.saveBtn:hover::before {
+  left: 0;
+}
+
+.saveBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px
+    color-mix(in oklab, var(--primary-start) 40%, transparent);
+}
+
+.saveBtn > * {
+  position: relative;
+  z-index: 2;
+}
+
+.resetBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--secondary-gradient);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-default);
+  box-shadow: 0 2px 4px
+    color-mix(in oklab, var(--secondary-start) 30%, transparent);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 80px;
+  flex: 1;
+  justify-content: center;
+}
+
+.resetBtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    in oklab to right,
+    var(--secondary-hover-start),
+    var(--secondary-hover-end)
+  );
+  transition: var(--transition-default);
+  z-index: 1;
+}
+
+.resetBtn:hover::before {
+  left: 0;
+}
+
+.resetBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px
+    color-mix(in oklab, var(--secondary-start) 40%, transparent);
+}
+
+.resetBtn > * {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .imageGrid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .actionButtons {
+    flex-direction: column;
+  }
+
+  .saveBtn,
+  .resetBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -5,7 +5,13 @@ import {
   ListRecipesResponse,
   Recipe,
 } from "@/lib/types";
-import { ensureStorage, readAllRecipes, writeAllRecipes } from "@/lib/storage";
+import {
+  ensureStorage,
+  readAllRecipes,
+  writeAllRecipes,
+  deleteRecipe,
+  updateRecipe,
+} from "@/lib/storage";
 import { generateThumbnailSvg } from "@/lib/thumbnail";
 
 export const runtime = "nodejs";
@@ -37,17 +43,20 @@ export async function PUT(req: NextRequest) {
   }
 
   // レシピを更新
-  recipes[recipeIndex].title = title.trim();
-  recipes[recipeIndex].details = details.trim();
+  const updatedRecipe = {
+    ...recipes[recipeIndex],
+    title: title.trim(),
+    details: details.trim(),
+  };
 
   // 画像URLが提供されている場合は更新
   if (imageUrl) {
-    recipes[recipeIndex].thumbnailPath = imageUrl;
+    updatedRecipe.thumbnailPath = imageUrl;
   }
 
-  await writeAllRecipes(recipes);
+  await updateRecipe(updatedRecipe);
 
-  return NextResponse.json({ recipe: recipes[recipeIndex] }, { status: 200 });
+  return NextResponse.json({ recipe: updatedRecipe }, { status: 200 });
 }
 
 export async function DELETE(req: NextRequest) {
@@ -59,18 +68,18 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: "id is required" }, { status: 400 });
   }
 
+  // レシピが存在するか確認
   const recipes = await readAllRecipes();
-  const recipeIndex = recipes.findIndex((r) => r.id === id);
+  const recipe = recipes.find((r) => r.id === id);
 
-  if (recipeIndex === -1) {
+  if (!recipe) {
     return NextResponse.json({ error: "Recipe not found" }, { status: 404 });
   }
 
-  // レシピを削除
-  const deletedRecipe = recipes.splice(recipeIndex, 1)[0];
-  await writeAllRecipes(recipes);
+  // Firestoreからレシピを削除
+  await deleteRecipe(id);
 
-  return NextResponse.json({ recipe: deletedRecipe }, { status: 200 });
+  return NextResponse.json({ recipe }, { status: 200 });
 }
 
 export async function POST(req: NextRequest) {
@@ -79,6 +88,7 @@ export async function POST(req: NextRequest) {
   const title = (body.title ?? "").trim();
   const details = (body.details ?? "").trim();
   const imageUrl = body.imageUrl;
+  const referenceImages = (body as any).referenceImages;
 
   if (!title || !details) {
     return NextResponse.json(
@@ -104,6 +114,7 @@ export async function POST(req: NextRequest) {
     title,
     details,
     thumbnailPath,
+    referenceImages: referenceImages || [],
     createdAt: now,
   };
 

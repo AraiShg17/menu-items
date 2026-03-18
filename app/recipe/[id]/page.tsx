@@ -1,6 +1,8 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
+import BackButton from "../../../components/BackButton";
+import ReferenceImageGallery from "../../../components/ReferenceImageGallery";
 import styles from "./page.module.css";
 
 type Recipe = {
@@ -8,6 +10,7 @@ type Recipe = {
   title: string;
   details: string;
   thumbnailPath: string;
+  referenceImages?: string[];
   createdAt: string;
 };
 
@@ -24,10 +27,15 @@ export default function RecipeDetailPage() {
   const [loading, setLoading] = useState(true);
   const [instruction, setInstruction] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [isManualEditing, setIsManualEditing] = useState(false);
+  const [manualTitle, setManualTitle] = useState("");
+  const [manualDetails, setManualDetails] = useState("");
+  const [manualSaving, setManualSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [referenceImages, setReferenceImages] = useState<string[]>([]);
   const [message, setMessage] = useState<{
     type: "error" | "success";
     text: string;
@@ -53,6 +61,7 @@ export default function RecipeDetailPage() {
       const foundRecipe = data.recipes.find((r: Recipe) => r.id === recipeId);
       if (foundRecipe) {
         setRecipe(foundRecipe);
+        setReferenceImages(foundRecipe.referenceImages || []);
       } else {
         setMessage({ type: "error", text: "レシピが見つかりません" });
       }
@@ -188,6 +197,61 @@ export default function RecipeDetailPage() {
     }
   }
 
+  function startManualEdit() {
+    if (!recipe) return;
+    setManualTitle(recipe.title);
+    setManualDetails(recipe.details);
+    setMessage(null);
+    setIsManualEditing(true);
+  }
+
+  function cancelManualEdit() {
+    setIsManualEditing(false);
+    if (!recipe) return;
+    setManualTitle(recipe.title);
+    setManualDetails(recipe.details);
+  }
+
+  async function handleManualSave() {
+    if (!recipe) return;
+    if (!manualTitle.trim() || !manualDetails.trim()) {
+      setMessage({ type: "error", text: "タイトルと詳細は必須です" });
+      return;
+    }
+
+    setManualSaving(true);
+    setMessage(null);
+
+    try {
+      const res = await fetch("/api/recipes", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: recipeId,
+          title: manualTitle.trim(),
+          details: manualDetails.trim(),
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data?.error || "手動編集の保存に失敗しました");
+      }
+
+      const data = await res.json();
+      setRecipe(data.recipe);
+      setIsManualEditing(false);
+      setMessage({ type: "success", text: "手動編集を保存しました！" });
+    } catch (error: any) {
+      setMessage({
+        type: "error",
+        text: error?.message || "エラーが発生しました",
+      });
+    } finally {
+      setManualSaving(false);
+    }
+  }
+
   async function handleDelete() {
     if (!confirm("このレシピを削除しますか？")) return;
 
@@ -264,13 +328,7 @@ export default function RecipeDetailPage() {
     <div className="container">
       <section className="section">
         <div className="sectionInner">
-          <div className={styles.nav}>
-            <button
-              className={styles.backBtn}
-              onClick={() => window.history.back()}
-            >
-              ← 戻る
-            </button>
+          <BackButton>
             <button
               className={styles.deleteBtn}
               onClick={handleDelete}
@@ -278,10 +336,20 @@ export default function RecipeDetailPage() {
             >
               {deleting ? "削除中..." : "削除"}
             </button>
-          </div>
+          </BackButton>
 
           <header className={styles.header}>
-            <h1 className={styles.title}>{recipe.title}</h1>
+            {isManualEditing ? (
+              <input
+                className={styles.manualTitleInput}
+                value={manualTitle}
+                onChange={(e) => setManualTitle(e.target.value)}
+                placeholder="レシピタイトル"
+                maxLength={120}
+              />
+            ) : (
+              <h1 className={styles.title}>{recipe.title}</h1>
+            )}
           </header>
 
           <div className={styles.content}>
@@ -325,7 +393,42 @@ export default function RecipeDetailPage() {
                 )}
               </div>
               <div className={styles.details}>
-                <pre className={styles.detailsText}>{recipe.details}</pre>
+                {isManualEditing ? (
+                  <textarea
+                    className={styles.manualDetailsInput}
+                    value={manualDetails}
+                    onChange={(e) => setManualDetails(e.target.value)}
+                    rows={16}
+                    placeholder="レシピ詳細"
+                  />
+                ) : (
+                  <pre className={styles.detailsText}>{recipe.details}</pre>
+                )}
+              </div>
+
+              <div className={styles.manualEditSection}>
+                {!isManualEditing ? (
+                  <button className={styles.editBtn} onClick={startManualEdit}>
+                    手動で編集する
+                  </button>
+                ) : (
+                  <div className={styles.manualEditActions}>
+                    <button
+                      className={styles.saveBtn}
+                      onClick={handleManualSave}
+                      disabled={manualSaving}
+                    >
+                      {manualSaving ? "保存中..." : "手動編集を保存"}
+                    </button>
+                    <button
+                      className={styles.cancelBtn}
+                      onClick={cancelManualEdit}
+                      disabled={manualSaving}
+                    >
+                      キャンセル
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div className={styles.editSection}>
@@ -333,6 +436,14 @@ export default function RecipeDetailPage() {
                   className={styles.instructionInput}
                   value={instruction}
                   onChange={(e) => setInstruction(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+                      e.preventDefault();
+                      if (!submitting && instruction.trim()) {
+                        handleEdit();
+                      }
+                    }
+                  }}
                   placeholder="AIでレシピを修正 - 自然言語で修正指示を入力してください（例: もっと辛くして、野菜を増やしてください）"
                   rows={3}
                 />
@@ -355,6 +466,12 @@ export default function RecipeDetailPage() {
                 </div>
               )}
             </div>
+
+            <ReferenceImageGallery
+              recipeId={recipeId}
+              images={referenceImages}
+              onImagesChange={setReferenceImages}
+            />
           </div>
         </div>
       </section>

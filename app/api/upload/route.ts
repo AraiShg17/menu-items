@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "node:fs/promises";
-import { join } from "node:path";
+import { Storage } from "@google-cloud/storage";
 
 export const runtime = "nodejs";
 
-// アップロードディレクトリのパス
-const uploadDir = join(process.cwd(), "public", "uploads");
-
 // サポートする画像形式
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
-const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_SIZE = 5 * 1024 * 1024; // 5MB (Cloud Storageはより大きなファイルをサポート)
+
+// Cloud Storage初期化
+const storage = new Storage();
+const bucket = storage.bucket("home-items-app-714015956955-images");
 
 export async function POST(req: NextRequest) {
   try {
@@ -42,29 +42,33 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // アップロードディレクトリを作成（存在しない場合）
-    try {
-      await mkdir(uploadDir, { recursive: true });
-    } catch (error) {
-      // ディレクトリが既に存在する場合は無視
-    }
-
-    // ファイル名を生成（UUID + 元の拡張子）
+    // ユニークなファイル名を生成
+    const timestamp = Date.now();
+    const randomString = Math.random().toString(36).substring(2, 15);
     const fileExtension = file.name.split(".").pop() || "jpg";
-    const fileName = `${crypto.randomUUID()}.${fileExtension}`;
-    const filePath = join(uploadDir, fileName);
+    const fileName = `uploads/${timestamp}_${randomString}.${fileExtension}`;
 
-    // ファイルを保存
-    const bytes = await file.arrayBuffer();
-    await writeFile(filePath, Buffer.from(bytes));
+    // Cloud Storageにアップロード
+    const fileBuffer = await file.arrayBuffer();
+    const cloudFile = bucket.file(fileName);
 
-    // 公開URLを返す
-    const publicUrl = `/uploads/${fileName}`;
+    await cloudFile.save(Buffer.from(fileBuffer), {
+      metadata: {
+        contentType: file.type,
+        cacheControl: "public, max-age=31536000", // 1年キャッシュ
+      },
+      public: true, // 公開設定
+    });
+
+    // 公開URLを生成
+    const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
 
     return NextResponse.json({
       success: true,
       url: publicUrl,
-      filename: fileName,
+      filename: file.name,
+      size: file.size,
+      type: file.type,
     });
   } catch (error) {
     console.error("[upload] Error:", error);

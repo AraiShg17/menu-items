@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
+import BackButton from "../../components/BackButton";
 import styles from "./page.module.css";
 
 type Recipe = {
@@ -7,18 +8,22 @@ type Recipe = {
   title: string;
   details: string;
   thumbnailPath: string;
+  referenceImages?: string[];
   createdAt: string;
 };
 
 export default function GalleryPage() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
+    setLoading(true);
     fetch("/api/recipes")
       .then((r) => r.json())
       .then((data) => setRecipes(data.recipes || []))
-      .catch(() => setRecipes([]));
+      .catch(() => setRecipes([]))
+      .finally(() => setLoading(false));
   }, []);
 
   const filtered = useMemo(() => {
@@ -33,11 +38,7 @@ export default function GalleryPage() {
     <div className="container">
       <section className="section">
         <div className="sectionInner">
-          <div className={styles.nav}>
-            <a href="/" className={styles.backBtn}>
-              ← 戻る
-            </a>
-          </div>
+          <BackButton />
           <div className={styles.filters}>
             <input
               className={styles.input}
@@ -48,7 +49,12 @@ export default function GalleryPage() {
           </div>
 
           <div className={styles.grid}>
-            {filtered.length === 0 ? (
+            {loading ? (
+              <div className={styles.loading}>
+                <div className={styles.loadingSpinner}></div>
+                <p className={styles.loadingText}>レシピを読み込み中...</p>
+              </div>
+            ) : filtered.length === 0 ? (
               <div className={styles.empty}>
                 <div className={styles.emptyIcon}>空</div>
                 <h3 className={styles.emptyTitle}>
@@ -79,6 +85,11 @@ export default function GalleryPage() {
                     <div className={styles.date}>
                       {new Date(r.createdAt).toLocaleString("ja-JP")}
                     </div>
+                    {r.referenceImages && r.referenceImages.length > 0 && (
+                      <div className={styles.referenceCount}>
+                        📷 参考画像 {r.referenceImages.length}枚
+                      </div>
+                    )}
                   </div>
                 </a>
               ))

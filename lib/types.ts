@@ -3,6 +3,7 @@ export type Recipe = {
   title: string;
   details: string;
   thumbnailPath: string; // e.g. /thumbnails/xxxx.svg
+  referenceImages?: string[]; // 参考画像の配列（Base64 Data URL）
   createdAt: string; // ISO string
 };
 

@@ -1,7 +1,4 @@
 import crypto from "node:crypto";
-import { promises as fs } from "node:fs";
-import { thumbnailFsPath, thumbnailPublicPath } from "./storage";
-import { tryGenerateThumbnailWithAI } from "./ai";
 
 function pickColorFromText(text: string): string {
   const hash = crypto.createHash("md5").update(text).digest("hex");
@@ -17,8 +14,10 @@ export function generateThumbnailSvg(
 ): { svgDataUrl: string } {
   // SVGを直接生成してDataURLとして返す
   const svg = generateSvgContent(title, details);
-  const svgDataUrl = `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
-  
+  const svgDataUrl = `data:image/svg+xml;base64,${Buffer.from(svg).toString(
+    "base64"
+  )}`;
+
   return { svgDataUrl };
 }
 
@@ -86,31 +85,4 @@ function wrapText(text: string, maxLength: number): string[] {
   }
 
   return lines;
-}
-
-// 非同期AI画像生成
-async function generateAiThumbnailAsync(
-  title: string,
-  details: string,
-  originalFilename: string
-) {
-  try {
-    const englishPrompt = `Generate a realistic, appetizing food photograph thumbnail (800x450). Dish: "${title}". Bright, clean, top-down plating on a neutral background. Natural lighting, shallow depth of field. No text, no watermark, no logo.`;
-
-    const aiResult = await tryGenerateThumbnailWithAI(englishPrompt);
-
-    if (aiResult && aiResult.contentType === "image/png") {
-      // 元のSVGファイルをAI画像で置き換え
-      const filePath = thumbnailFsPath(originalFilename);
-      await fs.writeFile(filePath, aiResult.bytes);
-      console.log(
-        `[thumbnail] AI image generated and replaced SVG for: ${title}`
-      );
-    }
-  } catch (error) {
-    console.log(
-      `[thumbnail] AI generation failed for ${title}, keeping SVG:`,
-      error
-    );
-  }
 }

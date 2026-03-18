@@ -7,6 +7,7 @@ export type AiImageResult = {
 
 function getClient(): OpenAI | null {
   const apiKey = process.env.OPEN_AI_API_KEY;
+  console.log(`[AI] API Key available: ${apiKey ? "YES" : "NO"}`);
   if (!apiKey) return null;
   return new OpenAI({ apiKey });
 }
@@ -49,10 +50,17 @@ export async function tryGenerateRecipeDraft(
   userPrompt: string
 ): Promise<{ title: string; details: string; source?: string } | null> {
   const client = getClient();
+  console.log(
+    `[AI] tryGenerateRecipeDraft called with prompt: "${userPrompt}"`
+  );
+  console.log(`[AI] OpenAI client available: ${client ? "YES" : "NO"}`);
+
   if (!client) {
+    console.log(`[AI] No OpenAI client, using local fallback`);
     return draftFromPromptLocally(userPrompt);
   }
   try {
+    console.log(`[AI] Calling OpenAI API for recipe generation`);
     const system = `あなたは家庭料理のレシピ作成アシスタントです。日本語で厳密なフォーマットに従って、詳細で間違いのないレシピを出力してください。
 
 出力要件（必ず順守）:
@@ -88,12 +96,18 @@ export async function tryGenerateRecipeDraft(
       max_tokens: 800,
     });
     const text = res.choices?.[0]?.message?.content?.trim() || "";
-    if (!text) return draftFromPromptLocally(userPrompt);
+    console.log(`[AI] OpenAI response length: ${text.length}`);
+    if (!text) {
+      console.log(`[AI] Empty response from OpenAI, using local fallback`);
+      return draftFromPromptLocally(userPrompt);
+    }
     const lines = text.split(/\r?\n/).filter(Boolean);
     const title = lines[0]?.replace(/^タイトル[:：]\s*/, "") || "新規レシピ";
     const details = lines.slice(1).join("\n").trim() || text;
+    console.log(`[AI] Generated recipe title: "${title}"`);
     return { title, details, source: "openai" };
-  } catch {
+  } catch (error) {
+    console.error(`[AI] OpenAI API error:`, error);
     return draftFromPromptLocally(userPrompt);
   }
 }

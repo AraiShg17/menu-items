@@ -16,7 +16,6 @@ export default function Page() {
                 className={styles.cardImage}
               />
               <h2 className={styles.cardTitle}>レシピの考案</h2>
-              <p className={styles.cardDesc}>AIと一緒にレシピ作成</p>
             </a>
 
             <a
@@ -29,7 +28,6 @@ export default function Page() {
                 className={styles.cardImage}
               />
               <h2 className={styles.cardTitle}>レシピの一覧</h2>
-              <p className={styles.cardDesc}>登録済みレシピを確認</p>
             </a>
 
             <a
@@ -42,7 +40,18 @@ export default function Page() {
                 className={styles.cardImage}
               />
               <h2 className={styles.cardTitle}>レシピを登録</h2>
-              <p className={styles.cardDesc}>手動でレシピを登録</p>
+            </a>
+
+            <a
+              className={`${styles.navCard} ${styles.cardTertiary}`}
+              href="/extract"
+            >
+              <img
+                src="/images/button-04.png"
+                alt=""
+                className={styles.cardImage}
+              />
+              <h2 className={styles.cardTitle}>画像から抽出</h2>
             </a>
           </nav>
         </div>

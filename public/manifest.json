@@ -1,0 +1,16 @@
+{
+  "name": "レシピブック",
+  "short_name": "レシピブック",
+  "description": "AIでレシピを考案・管理し、画像からレシピを抽出できる料理アプリ",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ff9924",
+  "icons": [
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

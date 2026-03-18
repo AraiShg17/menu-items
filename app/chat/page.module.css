@@ -6,23 +6,6 @@
   margin-bottom: var(--spacing-lg);
 }
 
-.backBtn {
-  background: var(--text-muted);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition-default);
-}
-
-.backBtn:hover {
-  background: var(--text-secondary);
-  transform: translateY(-1px);
-}
-
 /* 入力行 */
 .inputRow {
   display: flex;
@@ -165,6 +148,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
+  padding-bottom: var(--spacing-2xl);
 }
 
 .recipeContent {

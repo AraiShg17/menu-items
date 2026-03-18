@@ -95,7 +95,7 @@ body {
   background: var(--background-gradient);
   background-attachment: fixed;
   color: var(--text-primary);
-  min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
   /* 安全領域の考慮 */
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
@@ -110,15 +110,47 @@ body::before {
   width: 100%;
   height: 100%;
   background: 
-    /* 白系の円形グラデーション */
-    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 30%, transparent 60%),
-    radial-gradient(circle at 75% 75%, rgba(248, 250, 252, 0.2) 0%, rgba(248, 250, 252, 0.05) 30%, transparent 60%),
-    radial-gradient(circle at 50% 10%, rgba(241, 245, 249, 0.15) 0%, rgba(241, 245, 249, 0.03) 40%, transparent 70%),
-    radial-gradient(circle at 10% 60%, rgba(248, 250, 252, 0.12) 0%, rgba(248, 250, 252, 0.03) 40%, transparent 70%),
-    radial-gradient(circle at 90% 40%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 35%, transparent 65%),
+    /* 白系の円形グラデーション */ radial-gradient(
+      circle at 25% 25%,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.1) 30%,
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      rgba(248, 250, 252, 0.2) 0%,
+      rgba(248, 250, 252, 0.05) 30%,
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 50% 10%,
+      rgba(241, 245, 249, 0.15) 0%,
+      rgba(241, 245, 249, 0.03) 40%,
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 10% 60%,
+      rgba(248, 250, 252, 0.12) 0%,
+      rgba(248, 250, 252, 0.03) 40%,
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 90% 40%,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.02) 35%,
+      transparent 65%
+    ),
     /* 清潔感のある楕円形グラデーション */
-    radial-gradient(ellipse at 30% 70%, rgba(248, 250, 252, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      radial-gradient(
+        ellipse at 30% 70%,
+        rgba(248, 250, 252, 0.1) 0%,
+        transparent 50%
+      ),
+    radial-gradient(
+      ellipse at 70% 30%,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 50%
+    );
   pointer-events: none;
   z-index: -1;
   animation: backgroundShift 25s ease-in-out infinite;
@@ -132,54 +164,91 @@ body::after {
   width: 100%;
   height: 100%;
   background: 
-    /* 温かみのあるシャープな円形境界線 */
-    radial-gradient(circle at 20% 20%, transparent 0%, transparent 45%, rgba(251, 146, 60, 0.08) 46%, rgba(251, 146, 60, 0.04) 48%, transparent 50%),
-    radial-gradient(circle at 80% 80%, transparent 0%, transparent 45%, rgba(34, 197, 94, 0.08) 46%, rgba(34, 197, 94, 0.04) 48%, transparent 50%),
-    radial-gradient(circle at 60% 20%, transparent 0%, transparent 40%, rgba(245, 158, 11, 0.06) 41%, rgba(245, 158, 11, 0.03) 43%, transparent 45%),
+    /* 温かみのあるシャープな円形境界線 */ radial-gradient(
+      circle at 20% 20%,
+      transparent 0%,
+      transparent 45%,
+      rgba(251, 146, 60, 0.08) 46%,
+      rgba(251, 146, 60, 0.04) 48%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      transparent 0%,
+      transparent 45%,
+      rgba(34, 197, 94, 0.08) 46%,
+      rgba(34, 197, 94, 0.04) 48%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 60% 20%,
+      transparent 0%,
+      transparent 40%,
+      rgba(245, 158, 11, 0.06) 41%,
+      rgba(245, 158, 11, 0.03) 43%,
+      transparent 45%
+    ),
     /* 料理らしい小さな円形アクセント */
-    radial-gradient(circle at 15% 85%, rgba(249, 115, 22, 0.05) 0%, transparent 20%),
-    radial-gradient(circle at 85% 15%, rgba(168, 85, 247, 0.05) 0%, transparent 20%),
-    radial-gradient(circle at 40% 90%, rgba(16, 185, 129, 0.04) 0%, transparent 25%),
-    radial-gradient(circle at 90% 60%, rgba(251, 146, 60, 0.04) 0%, transparent 25%);
+      radial-gradient(
+        circle at 15% 85%,
+        rgba(249, 115, 22, 0.05) 0%,
+        transparent 20%
+      ),
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(168, 85, 247, 0.05) 0%,
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 40% 90%,
+      rgba(16, 185, 129, 0.04) 0%,
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 90% 60%,
+      rgba(251, 146, 60, 0.04) 0%,
+      transparent 25%
+    );
   pointer-events: none;
   z-index: -1;
   animation: backgroundShift2 30s ease-in-out infinite reverse;
 }
 
 @keyframes backgroundShift {
-  0%, 100% { 
+  0%,
+  100% {
     transform: translateX(0) translateY(0) scale(1) rotate(0deg);
     opacity: 1;
   }
-  25% { 
+  25% {
     transform: translateX(-1%) translateY(-0.5%) scale(1.01) rotate(0.5deg);
     opacity: 0.9;
   }
-  50% { 
+  50% {
     transform: translateX(0.5%) translateY(-1%) scale(0.99) rotate(-0.3deg);
     opacity: 0.95;
   }
-  75% { 
+  75% {
     transform: translateX(-0.5%) translateY(0.5%) scale(1.005) rotate(0.2deg);
     opacity: 0.92;
   }
 }
 
 @keyframes backgroundShift2 {
-  0%, 100% { 
+  0%,
+  100% {
     transform: translateX(0) translateY(0) scale(1) rotate(0deg);
     opacity: 0.8;
   }
-  33% { 
+  33% {
     transform: translateX(1%) translateY(0.5%) scale(1.02) rotate(-0.5deg);
     opacity: 0.9;
   }
-  66% { 
+  66% {
     transform: translateX(-0.5%) translateY(1%) scale(0.98) rotate(0.3deg);
     opacity: 0.85;
   }
 }
-
 
 /* フォーカス状態 */
 *:focus {
@@ -232,15 +301,17 @@ body::after {
   width: -webkit-fill-available;
   width: -moz-available;
   width: stretch;
-  min-height: 100vh;
+  min-height: 100dvh;
+  padding-bottom: var(--spacing-2xl);
 }
 
 .section {
   width: -webkit-fill-available;
   width: -moz-available;
   width: stretch;
-  height: 100dvh;
+  min-height: 100dvh;
   padding-block: var(--spacing-2xl);
+  padding-bottom: calc(var(--spacing-2xl) + var(--spacing-xl));
 }
 
 .sectionInner {

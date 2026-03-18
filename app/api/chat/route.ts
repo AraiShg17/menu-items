@@ -25,10 +25,7 @@ export async function POST(req: NextRequest) {
     );
     return NextResponse.json({ error: "prompt is required" }, { status: 400 });
   }
-  const hasKey = Boolean(
-    process.env.OPENAI_API_KEY || process.env.OPEN_AI_API_KEY
-  );
-  console.log(`[chat] OPENAI_API_KEY(any) ${hasKey ? "present" : "missing"}`);
+  const hasKey = Boolean(process.env.OPEN_AI_API_KEY);
   if (action === "propose") {
     const dishes = await tryProposeDishTitles(effectivePrompt);
 

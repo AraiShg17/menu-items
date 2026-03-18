@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ensureStorage, readAllRecipes, writeAllRecipes } from "@/lib/storage";
+import { ensureStorage, readAllRecipes, updateRecipe } from "@/lib/storage";
 import { tryGenerateRecipeDraft } from "@/lib/ai";
 
 export const runtime = "nodejs";
@@ -82,9 +82,18 @@ export async function POST(req: NextRequest) {
     const recipes = await readAllRecipes();
     const recipeIndex = recipes.findIndex((r) => r.id === recipeId);
     if (recipeIndex !== -1) {
-      recipes[recipeIndex].title = draft.title;
-      recipes[recipeIndex].details = draft.details;
-      await writeAllRecipes(recipes);
+      const updatedRecipe = {
+        ...recipes[recipeIndex],
+        title: draft.title,
+        details: draft.details,
+      };
+      await updateRecipe(updatedRecipe);
+    } else {
+      console.error(`Recipe with id ${recipeId} not found for update`);
+      return NextResponse.json(
+        { error: "Recipe not found for update" },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(

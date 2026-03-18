@@ -8,14 +8,10 @@
   padding: var(--spacing-2xl);
   height: stretch;
   justify-content: center;
+  padding-bottom: calc(var(--spacing-2xl) + var(--spacing-xl));
 }
 
 .navCard {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: var(--spacing-2xl);
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(60px) saturate(200%) brightness(1.2);
   text-decoration: none;
@@ -41,27 +37,6 @@
   object-view-box: inset(5% 5% 5% 5%);
   transition: object-view-box 0.4s ease;
   z-index: -1;
-}
-
-.navCard::after {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(
-    45deg,
-    rgba(59, 130, 246, 0.3),
-    rgba(16, 185, 129, 0.3),
-    rgba(139, 92, 246, 0.3),
-    rgba(245, 158, 11, 0.3)
-  );
-  border-radius: 30px;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  filter: blur(8px);
 }
 
 /* 色分けカード */
@@ -119,6 +94,16 @@
   color: #2d3748;
 }
 
+.cardTertiary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: 2px solid #5a67d8;
+}
+
+.cardTertiary:hover {
+  color: #2d3748;
+}
+
 .cardIcon {
   font-size: 1.5rem;
   font-weight: 600;
@@ -138,7 +123,7 @@
 }
 
 .cardTitle {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: var(--spacing-sm);
   text-align: center;
@@ -148,19 +133,9 @@
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.8),
     0 0 16px rgba(255, 255, 255, 0.6), 0 0 24px rgba(255, 255, 255, 0.4),
     0 0 32px rgba(255, 255, 255, 0.2);
-}
+  backdrop-filter: blur(20px);
 
-.cardDesc {
-  font-size: 0.95rem;
-  line-height: 1.5;
-  text-align: center;
-  opacity: 0.9;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  color: #4a5568;
-  text-shadow: 0 0 6px rgba(255, 255, 255, 0.8),
-    0 0 12px rgba(255, 255, 255, 0.6), 0 0 18px rgba(255, 255, 255, 0.4),
-    0 0 24px rgba(255, 255, 255, 0.2);
+  padding: var(--spacing-sm) var(--spacing-md);
 }
 
 .badge {
@@ -189,16 +164,11 @@
   }
 
   .navCard {
-    padding: var(--spacing-lg);
     box-shadow: none;
   }
 
   .cardTitle {
     font-size: 1.25rem;
-  }
-
-  .cardDesc {
-    font-size: 0.9rem;
   }
 
   .cardIcon {

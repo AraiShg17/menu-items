@@ -6,23 +6,6 @@
   margin-bottom: var(--spacing-lg);
 }
 
-.backBtn {
-  background: var(--text-muted);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition-default);
-}
-
-.backBtn:hover {
-  background: var(--text-secondary);
-  transform: translateY(-1px);
-}
-
 .deleteBtn {
   background: var(--accent-error);
   color: white;
@@ -78,6 +61,7 @@
   gap: var(--spacing-lg);
   max-width: 1000px;
   margin: 0 auto;
+  padding-bottom: var(--spacing-2xl);
 }
 
 .detailsSection {
@@ -107,6 +91,92 @@
   padding: var(--spacing-lg);
   border-radius: 12px;
   border: 1px solid color-mix(in oklab, var(--primary-start) 10%, transparent);
+}
+
+.manualTitleInput {
+  width: min(100%, 560px);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid color-mix(in oklab, var(--primary-start) 20%, transparent);
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: var(--font-family);
+  background: white;
+  color: var(--text-primary);
+}
+
+.manualTitleInput:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px
+    color-mix(in oklab, var(--primary-start) 20%, transparent);
+}
+
+.manualDetailsInput {
+  width: 100%;
+  min-height: 260px;
+  padding: var(--spacing-lg);
+  border: 1px solid color-mix(in oklab, var(--primary-start) 20%, transparent);
+  border-radius: 12px;
+  font-size: 1rem;
+  line-height: 1.8;
+  font-family: var(--font-family);
+  color: var(--text-primary);
+  background: white;
+  resize: vertical;
+}
+
+.manualDetailsInput:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px
+    color-mix(in oklab, var(--primary-start) 20%, transparent);
+}
+
+.manualEditSection {
+  margin-bottom: var(--spacing-lg);
+}
+
+.manualEditActions {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.editBtn,
+.saveBtn,
+.cancelBtn {
+  border: none;
+  border-radius: 8px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-default);
+}
+
+.editBtn,
+.saveBtn {
+  background: var(--primary-gradient);
+  color: white;
+}
+
+.cancelBtn {
+  background: color-mix(in oklab, var(--text-muted) 60%, white);
+  color: var(--text-primary);
+}
+
+.editBtn:hover:not(:disabled),
+.saveBtn:hover:not(:disabled),
+.cancelBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.editBtn:disabled,
+.saveBtn:disabled,
+.cancelBtn:disabled {
+  background: var(--text-muted);
+  color: white;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* 編集セクション */
@@ -160,16 +230,18 @@
   background: var(--primary-gradient);
   color: white;
   border: none;
-  border-radius: 12px;
-  padding: var(--spacing-md) var(--spacing-xl);
-  font-size: 1rem;
+  border-radius: 8px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition-default);
-  box-shadow: 0 4px 6px
+  box-shadow: 0 2px 4px
     color-mix(in oklab, var(--primary-start) 30%, transparent);
   position: relative;
   overflow: hidden;
+  white-space: nowrap;
+  min-width: 80px;
 }
 
 .submitBtn::before {

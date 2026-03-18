@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import BackButton from "../../components/BackButton";
 import styles from "./page.module.css";
 
 export default function ChatRecipePage() {
@@ -146,14 +147,7 @@ export default function ChatRecipePage() {
     <div className="container">
       <section className="section">
         <div className="sectionInner">
-          <div className={styles.nav}>
-            <button
-              className={styles.backBtn}
-              onClick={() => window.history.back()}
-            >
-              ← 戻る
-            </button>
-          </div>
+          <BackButton />
 
           <div className={styles.inputRow}>
             <input
@@ -222,6 +216,14 @@ export default function ChatRecipePage() {
                   className={styles.editInput}
                   value={instruction}
                   onChange={(e) => setInstruction(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      if (!submitting && instruction.trim()) {
+                        handleEdit();
+                      }
+                    }
+                  }}
                   placeholder="レシピを修正したい場合は指示を入力..."
                 />
                 <button

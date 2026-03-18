@@ -1,0 +1,67 @@
+2025-11-14 19:00:26,331 DEBUG    root            Loaded Command Group: ['gcloud', 'builds']
+2025-11-14 19:00:26,337 DEBUG    root            Loaded Command Group: ['gcloud', 'builds', 'describe']
+2025-11-14 19:00:26,340 DEBUG    root            Running [gcloud.builds.describe] with arguments: [--project: "home-items-app", BUILD: "d2b29d31-cef4-4343-a8e1-ffc1159cd072"]
+2025-11-14 19:00:26,345 DEBUG    root            (gcloud.builds.describe) You do not currently have an active account selected.
+Please run:
+
+  $ gcloud auth login
+
+to obtain new credentials.
+
+If you have already logged in with a different account, run:
+
+  $ gcloud config set account ACCOUNT
+
+to select an already authenticated account to use.
+Traceback (most recent call last):
+  File "/Users/arais/google-cloud-sdk/lib/googlecloudsdk/calliope/cli.py", line 987, in Execute
+    resources = calliope_command.Run(cli=self, args=args)
+  File "/Users/arais/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 807, in Run
+    resources = command_instance.Run(args)
+  File "/Users/arais/google-cloud-sdk/lib/surface/builds/describe.py", line 57, in Run
+    client = cloudbuild_util.GetClientInstance()
+  File "/Users/arais/google-cloud-sdk/lib/googlecloudsdk/api_lib/cloudbuild/cloudbuild_util.py", line 112, in GetClientInstance
+    skip_activation_prompt=skip_activation_prompt,
+  File "/Users/arais/google-cloud-sdk/lib/googlecloudsdk/api_lib/util/apis.py", line 271, in GetClientInstance
+    http_timeout_sec=http_timeout_sec,
+  File "/Users/arais/google-cloud-sdk/lib/googlecloudsdk/api_lib/util/apis_internal.py", line 171, in _GetClientInstance
+    timeout=http_timeout_sec if http_timeout_sec else 'unset')
+  File "/Users/arais/google-cloud-sdk/lib/googlecloudsdk/core/credentials/transports.py", line 86, in GetApitoolsTransport
+    redact_request_body_reason=redact_request_body_reason)
+  File "/Users/arais/google-cloud-sdk/lib/googlecloudsdk/core/credentials/requests.py", line 83, in GetSession
+    allow_account_impersonation, True)
+  File "/Users/arais/google-cloud-sdk/lib/googlecloudsdk/core/credentials/requests.py", line 129, in WrapQuota
+    use_google_auth)
+  File "/Users/arais/google-cloud-sdk/lib/googlecloudsdk/core/credentials/transport.py", line 54, in QuotaProject
+    creds = store.LoadIfEnabled(allow_account_impersonation, use_google_auth)
+  File "/Users/arais/google-cloud-sdk/lib/googlecloudsdk/core/credentials/store.py", line 458, in LoadIfEnabled
+    use_google_auth=use_google_auth)
+  File "/Users/arais/google-cloud-sdk/lib/googlecloudsdk/core/credentials/store.py", line 571, in Load
+    with_access_token_cache=with_access_token_cache)
+  File "/Users/arais/google-cloud-sdk/lib/googlecloudsdk/core/credentials/store.py", line 735, in _Load
+    named_configs.ActiveConfig(False).file_path)
+googlecloudsdk.core.credentials.exceptions.NoActiveAccountException: You do not currently have an active account selected.
+Please run:
+
+  $ gcloud auth login
+
+to obtain new credentials.
+
+If you have already logged in with a different account, run:
+
+  $ gcloud config set account ACCOUNT
+
+to select an already authenticated account to use.
+2025-11-14 19:00:26,348 ERROR    root            (gcloud.builds.describe) You do not currently have an active account selected.
+Please run:
+
+  $ gcloud auth login
+
+to obtain new credentials.
+
+If you have already logged in with a different account, run:
+
+  $ gcloud config set account ACCOUNT
+
+to select an already authenticated account to use.
+2025-11-14 19:00:26,365 DEBUG    root            Metrics reporting process started...

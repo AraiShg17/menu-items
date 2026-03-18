@@ -1,0 +1,173 @@
+.gallery {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0;
+}
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-default);
+  box-shadow: 0 2px 4px
+    color-mix(in oklab, var(--primary-start) 30%, transparent);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 80px;
+}
+
+.addBtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    in oklab to right,
+    var(--primary-hover-start),
+    var(--primary-hover-end)
+  );
+  transition: var(--transition-default);
+  z-index: 1;
+}
+
+.addBtn:hover:not(:disabled)::before {
+  left: 0;
+}
+
+.addBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px
+    color-mix(in oklab, var(--primary-start) 40%, transparent);
+}
+
+.addBtn:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 4px var(--accent-shadow);
+}
+
+.addBtn:disabled::before {
+  display: none;
+}
+
+.addBtn > * {
+  position: relative;
+  z-index: 2;
+}
+
+.fileInput {
+  display: none;
+}
+
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.imageItem {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.thumbnail:hover {
+  transform: scale(1.05);
+}
+
+.removeBtn {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  background: rgba(220, 38, 38, 0.8);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: background-color 0.2s;
+}
+
+.removeBtn:hover:not(:disabled) {
+  background: rgba(185, 28, 28, 0.9);
+}
+
+.removeBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loadingSpinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+
+.emptyState p {
+  margin: 0.5rem 0;
+}
+
+.emptyDesc {
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
