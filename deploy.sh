@@ -6,7 +6,7 @@ PROJECT_ID="home-items-app"
 PROJECT_NUMBER="714015956955"
 REGION="asia-northeast1"
 SERVICE_NAME="menu-items"
-REPOSITORY_NAME="cloud-run-apps"
+REPOSITORY_NAME="cloud-run-source-deploy"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
@@ -64,18 +64,13 @@ fi
 IMAGE_TAG="$(date +%Y%m%d-%H%M%S)"
 IMAGE_URI="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY_NAME}/${SERVICE_NAME}:${IMAGE_TAG}"
 
-# Build container image with Dockerfile
+echo "Image: ${IMAGE_URI}"
+
+# Source is uploaded to GCP; build/push/deploy run on Cloud Build (not local Docker).
 gcloud builds submit \
   --project "$PROJECT_ID" \
-  --tag "$IMAGE_URI"
-
-# Deploy prebuilt image to Cloud Run
-gcloud run deploy "$SERVICE_NAME" \
-  --image "$IMAGE_URI" \
-  --project "$PROJECT_ID" \
-  --region "$REGION" \
-  --platform managed \
-  --allow-unauthenticated
+  --config cloudbuild.yaml \
+  --substitutions "_SERVICE_NAME=${SERVICE_NAME},_REGION=${REGION},_REPOSITORY=${REPOSITORY_NAME},_IMAGE_TAG=${IMAGE_TAG}"
 
 URL="$(gcloud run services describe "$SERVICE_NAME" --project "$PROJECT_ID" --region "$REGION" --format='value(status.url)')"
 

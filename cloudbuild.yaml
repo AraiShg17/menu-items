@@ -18,12 +18,22 @@ steps:
   # Build the container image
   - name: gcr.io/cloud-builders/docker
     id: docker-build
-    args: ["build", "-t", "gcr.io/$PROJECT_ID/menu-items:$_IMAGE_TAG", "."]
+    args:
+      [
+        "build",
+        "-t",
+        "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_SERVICE_NAME}:$_IMAGE_TAG",
+        ".",
+      ]
 
-  # Push the image
+  # Push the image to Artifact Registry
   - name: gcr.io/cloud-builders/docker
     id: docker-push
-    args: ["push", "gcr.io/$PROJECT_ID/menu-items:$_IMAGE_TAG"]
+    args:
+      [
+        "push",
+        "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_SERVICE_NAME}:$_IMAGE_TAG",
+      ]
 
   # Deploy to Cloud Run and mount the same secret at runtime
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
@@ -33,7 +43,7 @@ steps:
       - "-c"
       - |
         gcloud run deploy $_SERVICE_NAME \
-          --image gcr.io/$PROJECT_ID/menu-items:$_IMAGE_TAG \
+          --image ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_SERVICE_NAME}:$_IMAGE_TAG \
           --region $_REGION \
           --platform managed \
           --allow-unauthenticated \
@@ -48,10 +58,13 @@ availableSecrets:
       env: OPEN_AI_API_KEY
 
 images:
-  - gcr.io/$PROJECT_ID/menu-items:$_IMAGE_TAG
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_SERVICE_NAME}:$_IMAGE_TAG
 
 options:
   logging: CLOUD_LOGGING_ONLY
 
 substitutions:
-  _IMAGE_TAG: "manual"
+  _SERVICE_NAME: menu-items
+  _REGION: asia-northeast1
+  _REPOSITORY: cloud-run-source-deploy
+  _IMAGE_TAG: manual

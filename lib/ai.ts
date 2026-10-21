@@ -84,7 +84,8 @@ export async function tryGenerateRecipeDraft(
 禁止: Markdownのコードブロック、箇条書きの *、不要な英語、余計な説明。
 `;
     const res = await client.chat.completions.create({
-      model: "gpt-4o",
+      model: "gpt-6-luna",
+      reasoning_effort: "none",
       messages: [
         { role: "system", content: system },
         {
@@ -93,7 +94,7 @@ export async function tryGenerateRecipeDraft(
         },
       ],
       temperature: 0.5,
-      max_tokens: 800,
+      max_completion_tokens: 800,
     });
     const text = res.choices?.[0]?.message?.content?.trim() || "";
     console.log(`[AI] OpenAI response length: ${text.length}`);
@@ -122,7 +123,8 @@ export async function tryProposeDishTitles(
   try {
     const system = `あなたは献立プランナーです。日本語で料理名のみを1行ずつ、5案出してください。余計な説明や番号は不要。`;
     const res = await client.chat.completions.create({
-      model: "gpt-4o",
+      model: "gpt-6-luna",
+      reasoning_effort: "none",
       messages: [
         { role: "system", content: system },
         {
@@ -131,7 +133,7 @@ export async function tryProposeDishTitles(
         },
       ],
       temperature: 0.6,
-      max_tokens: 200,
+      max_completion_tokens: 200,
     });
     const text = res.choices?.[0]?.message?.content?.trim() || "";
     if (!text) return proposeLocally(userPrompt);

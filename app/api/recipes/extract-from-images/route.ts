@@ -87,10 +87,11 @@ export async function POST(req: NextRequest) {
     ];
 
     const response = await client.chat.completions.create({
-      model: "gpt-4o",
+      model: "gpt-6-luna",
+      reasoning_effort: "none",
       messages,
       temperature: 0.3,
-      max_tokens: 1000,
+      max_completion_tokens: 1000,
     });
 
     const text = response.choices?.[0]?.message?.content?.trim() || "";
